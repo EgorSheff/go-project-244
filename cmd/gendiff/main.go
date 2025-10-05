@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -19,6 +20,10 @@ func main() {
 				Value:   "stylish",
 				Usage:   "output format",
 			},
+		},
+		Action: func(ctx context.Context, c *cli.Command) error {
+			fmt.Println(c.Args().First(), c.Args().Get(1))
+			return nil
 		},
 	}
 
