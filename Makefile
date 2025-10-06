@@ -7,7 +7,7 @@ lint:
 	golangci-lint run ./...
 
 test:
-	go test -v
+	go test -v -race -coverprofile=coverage.out ./...
 
 clean:
 	rm bin/* || true # Ignore errors
