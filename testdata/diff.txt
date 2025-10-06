@@ -1,22 +1,4 @@
-package code
-
-import (
-	"code/parser"
-	"testing"
-
-	"github.com/stretchr/testify/assert"
-)
-
-func TestJSONDiff(t *testing.T) {
-	a, err := parser.ParseFile("testdata/file1.json")
-	if err != nil {
-		t.Fatal(err)
-	}
-	b, err := parser.ParseFile("testdata/file2.json")
-	if err != nil {
-		t.Fatal(err)
-	}
-	assert.Equal(t, `{
+{
   common: {
     + follow: false
       setting1: Value 1
@@ -55,5 +37,4 @@ func TestJSONDiff(t *testing.T) {
       }
       fee: 100500
   }
-}`, FormatDiffsStylish(genDiff(a, b), 0))
 }

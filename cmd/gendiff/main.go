@@ -23,7 +23,6 @@ func main() {
 			},
 		},
 		Action: func(ctx context.Context, c *cli.Command) error {
-			fmt.Println(c.Args().First(), c.Args().Get(1))
 			res, err := code.GenDiff(c.Args().First(), c.Args().Get(1), c.String("format"))
 			if err != nil {
 				return err
