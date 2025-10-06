@@ -2,19 +2,27 @@ package code
 
 import (
 	"code/parser"
-	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGenDiff(t *testing.T) {
-	a, err := parser.ParseFile("test/file1.json")
+	a, err := parser.ParseFile("testdata/file1.json")
 	if err != nil {
 		t.Fatal(err)
 	}
-	b, err := parser.ParseFile("test/file2.json")
+	b, err := parser.ParseFile("testdata/file2.json")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	fmt.Println(genDiff(a, b))
+	assert.Equal(t, `{
+  - follow: false
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}`, FormatDiffs(genDiff(a, b)))
 }

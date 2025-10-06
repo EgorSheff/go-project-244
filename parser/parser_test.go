@@ -9,23 +9,23 @@ import (
 
 func TestJSON(t *testing.T) {
 	data := `{"a": 1, "b": "str"}`
-	os.WriteFile("test.json", []byte(data), 0644)
+	os.WriteFile("test.json", []byte(data), 0644) //nolint:errcheck
 	res, err := ParseFile("test.json")
 	if err != nil {
 		t.Fatal(err)
 	}
 	assert.Equal(t, map[string]any{"a": 1.0, "b": "str"}, res)
-	os.Remove("test.json")
+	os.Remove("test.json") //nolint:errcheck
 }
 
 func TestYAML(t *testing.T) {
 	data := `a: 1
 b: "str"`
-	os.WriteFile("test.yaml", []byte(data), 0644)
+	os.WriteFile("test.yaml", []byte(data), 0644) //nolint:errcheck
 	res, err := ParseFile("test.yaml")
 	if err != nil {
 		t.Fatal(err)
 	}
 	assert.Equal(t, map[string]any{"a": 1, "b": "str"}, res)
-	os.Remove("test.yaml")
+	os.Remove("test.yaml") //nolint:errcheck
 }
