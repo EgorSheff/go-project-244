@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"gopkg.in/yaml.v3"
+	"sigs.k8s.io/yaml"
 )
 
 var (
@@ -28,6 +28,8 @@ func ParseFile(path string) (map[string]any, error) {
 		if err := json.Unmarshal(data, &res); err != nil {
 			return nil, fmt.Errorf("error parse json file: %v", err)
 		}
+	case ".yml":
+		fallthrough
 	case ".yaml":
 		if err = yaml.Unmarshal(data, &res); err != nil {
 			return nil, fmt.Errorf("error parse yaml file: %v", err)

@@ -1,31 +1,35 @@
 package parser
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestJSON(t *testing.T) {
-	data := `{"a": 1, "b": "str"}`
-	os.WriteFile("test.json", []byte(data), 0644) //nolint:errcheck
-	res, err := ParseFile("test.json")
+	res, err := ParseFile("../testdata/file1.json")
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, map[string]any{"a": 1.0, "b": "str"}, res)
-	os.Remove("test.json") //nolint:errcheck
+	assert.Equal(t, map[string]any{"host": "hexlet.io", "timeout": 50.0, "proxy": "123.234.53.22", "follow": false}, res)
 }
 
 func TestYAML(t *testing.T) {
-	data := `a: 1
-b: "str"`
-	os.WriteFile("test.yaml", []byte(data), 0644) //nolint:errcheck
-	res, err := ParseFile("test.yaml")
+	res, err := ParseFile("../testdata/file1.yml")
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, map[string]any{"a": 1, "b": "str"}, res)
-	os.Remove("test.yaml") //nolint:errcheck
+	assert.Equal(t, map[string]any{"host": "hexlet.io", "timeout": 50.0, "proxy": "123.234.53.22", "follow": false}, res)
+}
+
+func TestDifferentFormats(t *testing.T) {
+	jsn, err := ParseFile("../testdata/file1.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	yml, err := ParseFile("../testdata/file1.yml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, jsn, yml)
 }
