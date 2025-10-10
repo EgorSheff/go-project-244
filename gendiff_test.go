@@ -1,13 +1,15 @@
 package code
 
 import (
+	"code/formatters"
+	"code/getdiff"
 	"code/parser"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestJSONDiff(t *testing.T) {
+func TestStylishDiff(t *testing.T) {
 	a, err := parser.ParseFile("testdata/file1.json")
 	if err != nil {
 		t.Fatal(err)
@@ -55,5 +57,26 @@ func TestJSONDiff(t *testing.T) {
       }
       fee: 100500
   }
-}`, FormatDiffsStylish(genDiff(a, b), 0))
+}`, formatters.FormatDiffsStylish(getdiff.GetDiffs(a, b)))
+}
+
+func TestPlainDiff(t *testing.T) {
+	a, err := parser.ParseFile("testdata/file1.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	b, err := parser.ParseFile("testdata/file2.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, `Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]`, formatters.FormatDiffsPlain(getdiff.GetDiffs(a, b)))
 }
